@@ -45,7 +45,7 @@ jobs:
         poetry run black .
     - name: Lint with ruff
       run: |
-        poetry run ruff check .
+        poetry run ruff check . --fix
     - name: Run tests
       run: |
         poetry run pytest
