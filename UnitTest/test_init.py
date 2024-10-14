@@ -1,21 +1,21 @@
-import sys
-import os
-import pytest
-import numpy as np
+import sys  # noqa: E402
+import os  # noqa: E402
+import pytest  # noqa: E402
+import numpy as np  # noqa: E402
 
 # Add the parent directory to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # noqa: E402
 
 # Add the parent folder and all its subdirectories to the Python path
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
-sys.path.insert(0, parent_dir)
-utils_dir = os.path.join(parent_dir, 'utils')
-sys.path.insert(0, utils_dir)
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))  # noqa: E402
+sys.path.insert(0, parent_dir)  # noqa: E402
+utils_dir = os.path.join(parent_dir, 'utils')  # noqa: E402
+sys.path.insert(0, utils_dir)  # noqa: E402
 
-from Test_to_be_deleted import test
-from utils.CrossOver import combinator
-from utils.Selection import selector
-from utils.Mutation import mutator
+from Test_to_be_deleted import test  # noqa: E402
+from utils.CrossOver import combinator  # noqa: E402
+from utils.Selection import selector  # noqa: E402
+from utils.Mutation import mutator  # noqa: E402
 
 
 def test_hello_world():

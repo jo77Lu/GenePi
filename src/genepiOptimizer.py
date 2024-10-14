@@ -52,7 +52,7 @@ class GeneticAlgorithm:
     def evolve(self) -> np.ndarray:
         self.plot_fitness()
 
-        for generation in range(self.generations):
+        for _ in range(self.generations):
             fitnesses = np.array([self.fitness(ind) for ind in self.population])
             parents = self.selection_func(self.population, fitnesses)
             
