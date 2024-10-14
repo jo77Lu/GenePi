@@ -1,4 +1,7 @@
 from typing import Tuple
+import numpy as np
+
+
 """
 This module provides various crossover methods for genetic algorithms.
 Functions:
@@ -9,7 +12,6 @@ Functions:
     pooling_random_crossover(parents: Tuple[np.ndarray, ...], n_offsprings: int = 3) -> Tuple[np.ndarray, ...]:
         Perform pooling random crossover on a tuple of parents to produce a specified number of children.
 """
-import numpy as np
 
 # Define crossover methods
 
