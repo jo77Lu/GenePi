@@ -9,11 +9,14 @@ import sys
 import os
 
 # Add the parent folder and all its subdirectories to the Python path
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'GenePi'))
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'parent_dir'))
 sys.path.insert(0, parent_dir)
+utils_dir = os.path.join(parent_dir, 'utils')
+sys.path.insert(0, utils_dir)
 
 for root, dirs, files in os.walk(parent_dir):
     for dir in dirs:
+        print(dir)
         sys.path.insert(0, os.path.join(root, dir))
 
 # Import the function from the parent folder
