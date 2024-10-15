@@ -17,6 +17,7 @@ from utils import combinator  # noqa: E402
 from utils import selector  # noqa: E402
 from utils import mutator  # noqa: E402
 from utils import pareto  # noqa: E402
+# noqa: E402
 
 def test_hello_world():
     assert test.hello_world() == "Hello World"
