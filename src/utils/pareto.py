@@ -24,7 +24,7 @@ def whoIsDominant(x: Tuple[np.ndarray,...]) -> List[int]:
 def getParetoFronts(x:Tuple[np.ndarray]) -> List[List[int]]:
 
     paretoFrontList =[]
-    index= [i for i in range(len(x))]
+    index= list(range(len(x)))
 
     while len(x) > 0:
         listDominant = whoIsDominant(x)
