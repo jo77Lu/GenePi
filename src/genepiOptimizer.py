@@ -3,9 +3,9 @@ import random
 import matplotlib.pyplot as plt
 from typing import Callable, List, Tuple
 # Import Modules
-from utils.CrossOver import combinator
-from utils.Selection import selector
-from utils.Mutation import mutator
+from GenePi.src.utils import combinator
+from GenePi.src.utils import selector
+from GenePi.src.utils import mutator
 
 class GeneticAlgorithm:
     def __init__(self, 
