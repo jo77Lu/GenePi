@@ -33,9 +33,9 @@ def parents():
 
 @pytest.fixture
 def scores():
-    score1 = np.array([1, 2, 3])
-    score2 = np.array([6, 7, 8])
-    score3 = np.array([11, 12, 13])
+    score1 = np.array([1, 2, 3,4])
+    score2 = np.array([6, 7, 8,9])
+    score3 = np.array([11, 12, 13,14])
     return (score1, score2, score3)
 
 
@@ -49,12 +49,13 @@ def test_pooling_random_crossover(parents):
 def test_isDominant(scores):
     assert pareto.isDominant(scores[0],scores[1]), "Expected True, got False"
     assert not pareto.isDominant(scores[2],scores[1]), "Expected False, got True"
-    assert not pareto.isDominant(np.array([1,0.5]),np.array([0.5,1])), "Testing [1,0.5],[0.5,1] : Expected False, got True"
-    assert not pareto.isDominant(np.array([0.5,1]),np.array([1,0.5])), " testing [0.5,1],[1,0.5] : Expected False, got True"
+    assert not pareto.isDominant(np.array([1,1]),np.array([0.5,0.5])), "Testing [1,0.5],[0.5,1] : Expected False, got True"
+    assert pareto.isDominant(np.array([0.5,0.5]),np.array([1,1])), " testing [0.5,0.5],[1,1] : Expected True, got False"
 
 def test_whoIsDominant(scores):
     assert pareto.whoIsDominant(scores) == [0], f"Expected [0], got {pareto.whoIsDominant(scores)}"
-    assert pareto.whoIsDominant((np.array([1,0.5]),np.array([0.5,1]))) == [], f"Expected [], got {pareto.whoIsDominant(scores[:2])}"
+    test2 = (np.array([1,0]),np.array([0,1]),np.array([0.5,0.5]))
+    assert pareto.whoIsDominant(test2) == [0,1,2], f"Expected [0,1,2], got {pareto.whoIsDominant(test2)}"
 
 
 def test_getParetoFronts(scores):
