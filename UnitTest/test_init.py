@@ -75,7 +75,11 @@ def test_roulette_wheel_selection():
     #Test the tournament selection
     selection_function = selector.RouletteWheelSelection()
     selected_population = selection_function.select(population, fitnesses)
+
+    # 1 test shape
     assert selected_population.shape == population.shape, f"Expected shape {population.shape}, got {selected_population.shape}"
+
+    # 2 test values
     if os.path.exists(os.path.join(current_dir,"refData/test_roulette_wheel_selection.npy")):
         np.testing.assert_allclose(selected_population, np.load(os.path.join(current_dir,"refData/test_roulette_wheel_selection.npy")), rtol=1e-5, atol=1e-8)
     else:
@@ -96,7 +100,11 @@ def test_tournament_selection():
     #Test the tournament selection
     selection_function = selector.TournamentSelection()
     selected_population = selection_function.select(population, fitnesses)
+
+    # 1 test shape
     assert selected_population.shape == population.shape, f"Expected shape {population.shape}, got {selected_population.shape}"
+
+    # 2 test values
     if os.path.exists(os.path.join(current_dir,"refData/test_tournament_selection.npy")):
         np.testing.assert_allclose(selected_population, np.load(os.path.join(current_dir,"refData/test_tournament_selection.npy")), rtol=1e-5, atol=1e-8)
     else:
