@@ -13,8 +13,15 @@ class RouletteWheelSelection(SelectionFunction):
         self.k = k
 
     def select(self, population: np.ndarray, fitnesses: np.ndarray) -> np.ndarray:
+        """
+        Selects k individuals from the population using roulette wheel selection
+            :param population: np.ndarray
+            :param fitnesses: np.ndarray
+            :return: np.ndarray
+        """
         total_fitness = np.sum(fitnesses)
         selection_probs = fitnesses / total_fitness
+
         parents_indices = np.random.choice(len(population), size=len(population), p=selection_probs)
         return population[parents_indices]
 
@@ -23,6 +30,12 @@ class TournamentSelection(SelectionFunction):
         self.k = k
 
     def select(self, population: np.ndarray, fitnesses: np.ndarray) -> np.ndarray:
+        """
+        Selects k individuals from the population using tournament selection
+            :param population: np.ndarray
+            :param fitnesses: np.ndarray
+            :return: np.ndarray
+        """
         selected = []
         for _ in range(len(population)):
             tournament = np.random.choice(len(population), self.k)
@@ -35,6 +48,12 @@ class ParetoSelection(SelectionFunction):
         self.fun_selection = fun_selection
 
     def select(self, population: np.ndarray, fitnesses: np.ndarray) -> np.ndarray:
+        """
+        Selects individuals from the population using pareto selection
+            :param population: np.ndarray
+            :param fitnesses: np.ndarray
+            :return: np.ndarray
+        """
         pareto_fronts = pareto.getParetoFronts(fitnesses)
         selected = []
         for front in pareto_fronts:
