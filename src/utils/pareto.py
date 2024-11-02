@@ -38,12 +38,22 @@ def whoIsDominant(x: Tuple[np.ndarray,...],isSorted: bool =False) -> List[int]:
 
 
 def getParetoFronts(x:Tuple[np.ndarray]) -> List[List[int]]:
+    """
+    Computes the Pareto fronts for a given set of points.
+    Parameters:
+    x (Tuple[np.ndarray]): A tuple of numpy arrays representing the points for which Pareto fronts are to be computed.
+    Returns:
+    List[List[int]]: A list of lists, where each sublist contains the indices of points belonging to a Pareto front.
+    np.ndarray: An array where each element represents the Pareto rank of the corresponding point in the input array.
+    The function iteratively identifies and removes the dominant points (Pareto front) from the set of points until no points are left.
+    """
 
     x= np.array(x)
 
     paretoFrontList =[]
+    paretos = np.zeros(len(x))
     index= np.array(range(len(x)))
-
+    paretoRank=0  # Best rank is 0
     while len(x) > 0:
         listDominant = whoIsDominant(x, isSorted=False)
         if len(listDominant)==0:
@@ -51,54 +61,60 @@ def getParetoFronts(x:Tuple[np.ndarray]) -> List[List[int]]:
             break
 
         paretoFrontList.append([index[i] for i in listDominant])
+        paretos[index[listDominant]] = paretoRank
 
         mask = np.ones(len(x), dtype=bool)
         mask[listDominant] = False
         x = x[mask]
         index = index[mask]
 
-        # x = np.delete(x, listDominant, axis=0)
-        # index = np.delete(index, listDominant, axis=0)
-    return paretoFrontList
+        paretoRank += 1
 
+    return paretoFrontList, paretos
+
+
+def getParetoFitness(idx: int, fitness: np.ndarray, pareto_front:List[int] ) -> float:
+    return 10**(pareto_front[idx]-1)+np.sum(fitness[idx])
 
 if __name__ == '__main__':
-    # x = tuple(np.random.rand(100,2))
-    # paretoFronts = getParetoFronts(x)
-    # # print("Pareto Fronts:\n", paretoFronts)
-    
-    # # Plot the vectors
-    # cmap = plt.colormaps.get_cmap('rainbow')
-    # norm = Normalize(vmin=0, vmax=len(paretoFronts) - 1)
-    
-    # for i, front in enumerate(paretoFronts):
-    #     front_points = np.array([x[j] for j in front])
-    #     plt.scatter(front_points[:, 0], front_points[:, 1], color=cmap(norm(i)), label=f'Front {i+1} [{len(front)}]')
-    
-    # plt.xlabel('X-axis')
-    # plt.ylabel('Y-axis')
-    # plt.title('Pareto Fronts')
-    # plt.legend()
-    # plt.show()
-
-    x = tuple(np.random.rand(200, 3))
-    paretoFronts = getParetoFronts(x)
+    x = np.random.rand(200, 2)
+    paretoFronts, _ = getParetoFronts(x)
     # print("Pareto Fronts:\n", paretoFronts)
     
     # Plot the vectors
     cmap = plt.colormaps.get_cmap('plasma')  # Change 'plasma' to any other colormap name
     norm = Normalize(vmin=0, vmax=len(paretoFronts) - 1)
     
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    
     for i, front in enumerate(paretoFronts):
         front_points = np.array([x[j] for j in front])
-        ax.scatter(front_points[:, 0], front_points[:, 1], front_points[:, 2], color=cmap(norm(i)), label=f'Front {i+1} [{len(front)}]')
+        plt.scatter(front_points[:, 0], front_points[:, 1], color=cmap(norm(i)), label=f'Front {i+1} [{len(front)}]')
     
-    ax.set_xlabel('X-axis')
-    ax.set_ylabel('Y-axis')
-    ax.set_zlabel('Z-axis')
-    ax.set_title('Pareto Fronts')
-    ax.legend()
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    plt.title('Pareto Fronts')
+    plt.legend()
     plt.show()
+
+
+    # x = np.random.rand(200, 3)
+    # paretoFronts, _ = getParetoFronts(x)
+    # # print("Pareto Fronts:\n", paretoFronts)
+    
+    # # Plot the vectors
+    # cmap = plt.colormaps.get_cmap('plasma')  # Change 'plasma' to any other colormap name
+    # norm = Normalize(vmin=0, vmax=len(paretoFronts) - 1)
+    
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    
+    # for i, front in enumerate(paretoFronts):
+    #     front_points = front
+    #     print(front_points)
+    #     ax.scatter(x[front_points][:, 0], x[front_points][:, 1], x[front_points][:, 2], color=cmap(norm(i)), label=f'Front {i+1} [{len(front)}]')
+    
+    # ax.set_xlabel('X-axis')
+    # ax.set_ylabel('Y-axis')
+    # ax.set_zlabel('Z-axis')
+    # ax.set_title('Pareto Fronts')
+    # ax.legend()
+    # plt.show()

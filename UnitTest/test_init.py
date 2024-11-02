@@ -59,7 +59,10 @@ def test_whoIsDominant(scores):
 
 
 def test_getParetoFronts(scores):
-    assert pareto.getParetoFronts(scores) == [[0],[1],[2]], f"Expected [[0],[1],[2]], got {pareto.getParetoFronts(scores)}"
+    fronts, paretoRank = pareto.getParetoFronts(scores)
+    print(paretoRank)
+    assert fronts == [[0],[1],[2]], f"Expected [[0],[1],[2]], got {fronts}"
+    assert np.array_equal(paretoRank,np.array([0,1,2])), f"Expected [0,1,2], got {paretoRank}"
 
 def test_roulette_wheel_selection():
     current_file_path = os.path.abspath(__file__)
@@ -109,3 +112,29 @@ def test_tournament_selection():
         np.testing.assert_allclose(selected_population, np.load(os.path.join(current_dir,"refData/test_tournament_selection.npy")), rtol=1e-5, atol=1e-8)
     else:
         np.save(os.path.join(current_dir,"refData/test_tournament_selection.npy"), selected_population)
+
+    
+
+def test_pareto_selection():
+    current_file_path = os.path.abspath(__file__)
+    current_dir = os.path.dirname(current_file_path)
+
+    #Fix the seed for reproducibility
+    np.random.seed(0)
+
+    #Generate random population and fitnesses
+    population = np.random.rand(100, 10)
+    fitnesses = np.random.rand(100)
+
+    #Test the pareto selection
+    selection_function = selector.ParetoSelection()
+    selected_population = selection_function.select(population, fitnesses)
+
+    # 1 test shape
+    assert selected_population.shape == population.shape, f"Expected shape {population.shape}, got {selected_population.shape}"
+
+    # 2 test values
+    if os.path.exists(os.path.join(current_dir,"refData/test_pareto_selection.npy")):
+        np.testing.assert_allclose(selected_population, np.load(os.path.join(current_dir,"refData/test_pareto_selection.npy")), rtol=1e-5, atol=1e-8)
+    else:
+        np.save(os.path.join(current_dir,"refData/test_pareto_selection.npy"), selected_population)
